@@ -2,7 +2,7 @@
 
 # if files were generated with GATK VariantRecalibration and had to be edited to add 'chr' to contigs, run sed -i 's/chr//g' *.vcf, from the folder containing the vcf files, to delete chr from files and then run VariantsToTable.
 
-FILES=results/annotated_vcf/individual_vcf/gatk_recal/*.vcf
+FILES=results/ind_call/axeq_ind/*.remdup.uniqMap.SS5.D1000.var.flt.vcf.annovar.hg19_multianno.vcf.headings.vcf.corrected
 for f in $FILES
 do
 	echo "Processing $f file..."
