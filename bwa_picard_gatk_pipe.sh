@@ -1,11 +1,13 @@
 #!/bin/bash
 
 # Picard-GATK pipeline for Alzheimer's Disease
+# Pipeline for variant calling using GATK's UnifiedGenotyper for group call.
+# This pipeline assumes you have BWA, Picard and GATK installed in a child directory called software/. Call this script from the parent directory, you will have to set the path to the data folder.  The intermediate files WILL BE DELETED after used to save space on disk.
 # Necessary resource files: hg19.fa (can be downloaded from ftp.broadinstitute.org), hg19.dict (created using SAMtools (or BWA), can be downloaded from the ftp as well), hg19.fai (generated using CreateSequenceDictionary from Picard (or BWA), can also be downloaded from ftp server).
 # Note: Be carful with the hg19 and b37 notations. b37 uses sequence naming conventions “1” to “22”, “X”, “Y” and “MT”, whereas hg19 uses sequence naming conventions “chr1” to “chr22”, “chrX”, “chrY” and “chrM”. Moreover, hg19 has an older mitochondrial sequence (whereas b37 has an updated one), and includes “alternate loci”. Make sure your files have the same notation as the reference files.
 # Target file: S04380110_Covered_corrected.bed (downloaded from Agilent server), or other target file (can be created at UCSC Table Browser)
 # Other resource files for Variant Recalibration : Mills_and_1000G_gold_standard.indels.b37.sites.vcf, hapmap_3.3.b37.sites.vcf, 1000G_omni2.5.b37.sites.vcf, dbsnp_138.b37.vcf.
-# This pipeline assumes you have BWA, Picard and GATK installed in a child directory called software/. Call this script from the parent directory, you will have to set the path to the data folder.  The intermediate files WILL BE DELETED after used to save space on disk.
+
 
 mkdir results \
 	  results/bam \
@@ -23,7 +25,7 @@ mkdir results \
 	  results/vcf/variant_recal/snp \
 	  results/vcf/variant_recal/snp_indel   	  	 
 	  	  
-
+# list with the file names
 samples=( 10R-R64-1.14468 10R-R64-21.14469 25-48-1355.14515 26-ASW-ASW62022.14516 27-51-83751.14518 4-162-11.14453 4-162-68.14454 4H-360-12.14495 4H-360-99.14494 50115-90C00018.14503 4-162-7.14452 4-393-31.14456 4-393-36.14457 4H-197-14.14485 4H-197-15.30221 4H-197-90.14486 4H-197-9.14484 4H-216-14.14492 )  
 for i in "${samples[@]}"
 do
