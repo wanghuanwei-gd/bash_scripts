@@ -1,14 +1,21 @@
 #!/bin/bash
 # Picard-GATK pipeline for Alzheimer's Disease
 
-samples=( 4-553-99.14459 )  
+#samples=( 50127-90C00053.14505 )
+samples=( 50452-90C01493.14496 )
+#samples=( 50452-90C04511.14497 )
+#samples=( 50452-90C04531.14498 )
+#samples=( 50578-90C03259.14499 )
+#samples=( 50578-90C04632.14500 ) 
+
+  
 for i in "${samples[@]}"
 do
 	echo "Processing sample $i..."
 	# Picard SortSam
 	java -Xmx50g -jar software/picard-tools-1.119/SortSam.jar SO=coordinate I=/media/RAID5-2/jan/jan/bam-exon/$i.bam O=results/bam/sorted/$i.sorted.bam CREATE_INDEX=true
 
-	# Picard MarkDuplicates
+	# Picard MarkDuplicatesf
 
 	java -Xmx50g -jar software/picard-tools-1.119/MarkDuplicates.jar CREATE_INDEX=true VALIDATION_STRINGENCY=LENIENT M=index2 I=results/bam/sorted/$i.sorted.bam O=results/bam/mark_duplicates/$i.sorted.dpl.bam
 	rm results/bam/sorted/$i.sorted.bam

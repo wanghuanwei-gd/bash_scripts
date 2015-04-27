@@ -2,7 +2,7 @@
 
 # Picard-GATK pipeline for Alzheimer's Disease
 # Pipeline for variant calling using GATK's UnifiedGenotyper for group call.
-# This pipeline assumes you have BWA, Picard and GATK installed in a child directory called software/. Call this script from the parent directory, you will have to set the path to the data folder.  The intermediate files WILL BE DELETED after used to save space on disk.
+# This pipeline assumes you have BWA, Picard and GATK installed in a child directory called software/. Call this script from the parent directory, you will have to set the path to the data folder.  The intermediate files WILL BE DELETED after used to save space on disk. To avoid that, delete the 'rm file' commands.
 # Necessary resource files: hg19.fa (can be downloaded from ftp.broadinstitute.org), hg19.dict (created using SAMtools (or BWA), can be downloaded from the ftp as well), hg19.fai (generated using CreateSequenceDictionary from Picard (or BWA), can also be downloaded from ftp server).
 # Note: Be carful with the hg19 and b37 notations. b37 uses sequence naming conventions “1” to “22”, “X”, “Y” and “MT”, whereas hg19 uses sequence naming conventions “chr1” to “chr22”, “chrX”, “chrY” and “chrM”. Moreover, hg19 has an older mitochondrial sequence (whereas b37 has an updated one), and includes “alternate loci”. Make sure your files have the same notation as the reference files.
 # Target file: S04380110_Covered_corrected.bed (downloaded from Agilent server), or other target file (can be created at UCSC Table Browser)

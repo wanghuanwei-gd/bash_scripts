@@ -1,6 +1,15 @@
 #!/bin/bash
 # Picard-GATK pipeline for Alzheimer's Disease
-mkdir results results/bam results/bam/bwa results/bam/sorted results/bam/add_replace_groups results/bam/gatk_target_creator_list results/bam/gatk_indel_realigner results/bam/base_recalibrator_tables results/bam/gatk_print_reads
+mkdir results \
+	  results/bam \
+	  results/bam/bwa \
+	  results/bam/sorted \
+	  results/bam/add_replace_groups \
+	  results/bam/gatk_target_creator_list \
+	  results/bam/gatk_indel_realigner \
+      results/bam/base_recalibrator_tables \
+	  results/bam/gatk_print_reads \
+	  results/vcf
 
 samples=( 10R-R64-1.14468 10R-R64-21.14469 25-48-1355.14515 26-ASW-ASW62022.14516 27-51-83751.14518 4-162-11.14453 4-162-68.14454 4H-360-12.14495 4H-360-99.14494 50115-90C00018.14503 4-162-7.14452 4-393-31.14456 4-393-36.14457 4H-197-14.14485 4H-197-15.30221 4H-197-90.14486 4H-197-9.14484 4H-216-14.14492 )  
 for i in "${samples[@]}"
@@ -43,3 +52,143 @@ do
 	rm results/bam/base_recalibrator_tables/$i.table
 	rm results/bam/gatk_indel_realigner/$i.sorted.dpl.adr.realigned.bam
 done
+
+# GATK UnifiedGenotyper
+
+java -Xmx50g -jar software/GenomeAnalysisTK.jar -nct 8 -T UnifiedGenotyper -L resources/S04380110/S04380110_Covered_corrected.bed -R resources/hg19.fa \
+-I results/bam/gatk_print_reads/0-62071-22.14477.recal.bam \
+-I results/bam/gatk_print_reads/0-62071-27.14478.recal.bam \
+-I results/bam/gatk_print_reads/0-62100-21.14482.recal.bam \
+-I results/bam/gatk_print_reads/0-62100-29.14483.recal.bam \
+-I results/bam/gatk_print_reads/0-62151-115.14474.recal.bam \
+-I results/bam/gatk_print_reads/0-62151-3.14472.recal.bam \
+-I results/bam/gatk_print_reads/0-62151-33.14473.recal.bam \
+-I results/bam/gatk_print_reads/0-62249-3.14479.recal.bam \
+-I results/bam/gatk_print_reads/0-62249-42.14481.recal.bam \
+-I results/bam/gatk_print_reads/0-62249-7.14480.recal.bam \
+-I results/bam/gatk_print_reads/0-62486-14.14475.recal.bam \
+-I results/bam/gatk_print_reads/0-62486-34.14476.recal.bam \
+-I results/bam/gatk_print_reads/0-62630-1.14470.recal.bam \
+-I results/bam/gatk_print_reads/0-62630-95.14471.recal.bam \
+-I results/bam/gatk_print_reads/07C62252.6152.recal.bam \
+-I results/bam/gatk_print_reads/07C65579.6153.recal.bam \
+-I results/bam/gatk_print_reads/10R-R64-1.14468.recal.bam \
+-I results/bam/gatk_print_reads/10R-R64-21.14469.recal.bam \
+-I results/bam/gatk_print_reads/19-L0022-L0022A.14512.recal.bam \
+-I results/bam/gatk_print_reads/19-L0034-L0034A.14513.recal.bam \
+-I results/bam/gatk_print_reads/25-42-1139.14514.recal.bam \
+-I results/bam/gatk_print_reads/25-48-1355.14515.recal.bam \
+-I results/bam/gatk_print_reads/26-ASW-ASW62022.14516.recal.bam \
+-I results/bam/gatk_print_reads/27-51-83751.14518.recal.bam \
+-I results/bam/gatk_print_reads/4-162-11.14453.recal.bam \
+-I results/bam/gatk_print_reads/4-162-68.14454.recal.bam \
+-I results/bam/gatk_print_reads/4-162-7.14452.recal.bam \
+-I results/bam/gatk_print_reads/4-393-31.14456.recal.bam \
+-I results/bam/gatk_print_reads/4-393-36.14457.recal.bam \
+-I results/bam/gatk_print_reads/4-393-4.14455.recal.bam \
+-I results/bam/gatk_print_reads/4-553-21.14458.recal.bam \
+-I results/bam/gatk_print_reads/4-553-99.14459.recal.bam \
+-I results/bam/gatk_print_reads/4H-197-14.14485.recal.bam \
+-I results/bam/gatk_print_reads/4H-197-15.30221.recal.bam \
+-I results/bam/gatk_print_reads/4H-197-90.14486.recal.bam \
+-I results/bam/gatk_print_reads/4H-197-9.14484.recal.bam \
+-I results/bam/gatk_print_reads/4H-216-14.14492.recal.bam \
+-I results/bam/gatk_print_reads/4H-216-18.14493.recal.bam \
+-I results/bam/gatk_print_reads/4H-216-9.14491.recal.bam \
+-I results/bam/gatk_print_reads/4H-224-26.30222.recal.bam \
+-I results/bam/gatk_print_reads/4H-224-28.14487.recal.bam \
+-I results/bam/gatk_print_reads/4H-224-29.30223.recal.bam \
+-I results/bam/gatk_print_reads/4H-224-48.14488.recal.bam \
+-I results/bam/gatk_print_reads/4H-354-12.14489.recal.bam \
+-I results/bam/gatk_print_reads/4H-354-21.14490.recal.bam \
+-I results/bam/gatk_print_reads/4H-354-25.30225.recal.bam \
+-I results/bam/gatk_print_reads/4H-360-12.14495.recal.bam \
+-I results/bam/gatk_print_reads/4H-360-99.14494.recal.bam \
+-I results/bam/gatk_print_reads/50115-90C00018.14503.recal.bam \
+-I results/bam/gatk_print_reads/50115-90C00025.30226.recal.bam \
+-I results/bam/gatk_print_reads/50115-90C00049.14502.recal.bam \
+-I results/bam/gatk_print_reads/50127-90C00007.14504.recal.bam \
+-I results/bam/gatk_print_reads/50127-90C00053.14505.recal.bam \
+-I results/bam/gatk_print_reads/50452-90C01493.14496.recal.bam \
+-I results/bam/gatk_print_reads/50452-90C04511.14497.recal.bam \
+-I results/bam/gatk_print_reads/50452-90C04531.14498.recal.bam \
+-I results/bam/gatk_print_reads/50578-90C03259.14499.recal.bam \
+-I results/bam/gatk_print_reads/50578-90C04632.14500.recal.bam \
+-I results/bam/gatk_print_reads/50857-90C03164.14506.recal.bam \
+-I results/bam/gatk_print_reads/50857-90C04542.14507.recal.bam \
+-I results/bam/gatk_print_reads/50962-90C03735.14508.recal.bam \
+-I results/bam/gatk_print_reads/50962-90C03934.14509.recal.bam \
+-I results/bam/gatk_print_reads/50997-90C04643.14510.recal.bam \
+-I results/bam/gatk_print_reads/50997-90C04646.30227.recal.bam \
+-I results/bam/gatk_print_reads/50997-90C04651.30228.recal.bam \
+-I results/bam/gatk_print_reads/50997-90C04652.14511.recal.bam \
+-I results/bam/gatk_print_reads/5-26057-107.14460.recal.bam \
+-I results/bam/gatk_print_reads/5-26057-119.14461.recal.bam \
+-I results/bam/gatk_print_reads/62071-37.30218.recal.bam \
+-I results/bam/gatk_print_reads/62151-31.30216.recal.bam \
+-I results/bam/gatk_print_reads/62249-16.30219.recal.bam \
+-I results/bam/gatk_print_reads/62486-35.30217.recal.bam \
+-I results/bam/gatk_print_reads/8-64016-10.14519.recal.bam \
+-I results/bam/gatk_print_reads/8-64021-3.14463.recal.bam \
+-I results/bam/gatk_print_reads/8-64021-47.30215.recal.bam \
+-I results/bam/gatk_print_reads/8-64035-29.14517.recal.bam \
+-I results/bam/gatk_print_reads/8-64041-1.14464.recal.bam \
+-I results/bam/gatk_print_reads/8-64041-77.14465.recal.bam \
+-o results/vcf/unified_genotyper/ad_ug_group_call_agilentV5_target.vcf -stand_call_conf 20.0 -stand_emit_conf 20.0 -glm BOTH -dcov 1000 --annotation AlleleBalance --annotation FisherStrand --annotation DepthPerAlleleBySample --annotation RMSMappingQuality --annotation HomopolymerRun --annotation AlleleBalanceBySample --annotation HaplotypeScore --annotation LowMQ --annotation MappingQualityZero --annotation MappingQualityZeroBySample --annotation QualByDepth --annotation RMSMappingQuality -nda -mbq 20
+
+# GATK VariantFiltration
+
+java -Xmx50g -jar software/GenomeAnalysisTK.jar -T VariantFiltration -R resources/hg19.fa --variant results/vcf/unified_genotyper/ad_ug_group_call_agilentV5_target.vcf -o results/vcf/variant_filtration/ad_ug_group_call_agilentV5_target_filtered.vcf --filterExpression "QD < 5.0" --filterName "QDFilter" --filterExpression "QUAL <= 30.0" --filterName "QUALFilter" --clusterSize 3 --downsample_to_coverage 1000 --baq OFF -baqGOP 40 --defaultBaseQualities 1 --filterExpression "MQ < 30.00" --filterName "MQ" --filterExpression "FS > 60.000" --filterName "FS" --filterExpression "HRun > 5.0" --filterName "HRunFilter" --filterExpression "ABHet > 0.75" --filterName "ABFilter" --filterExpression "SB > -10.0 " --filterName "StrandBias"
+
+# VariantRecalibrator - SNPs
+
+# java -Xmx4g -jar software/GenomeAnalysisTK.jar \
+#   -T VariantRecalibrator \
+#   -R resources/hg19.fa \
+#   -input results/vcf/variant_filtration/ad_ug_group_call_agilentV5_target_filtered.vcf \
+#   -resource:hapmap,known=false,training=true,truth=true,prior=15.0 resources/hapmap_3.3.b37.sites.vcf \
+#   -resource:omni,known=false,training=true,truth=false,prior=12.0 resources/1000G_omni2.5.b37.sites.vcf \
+#   -resource:dbsnp,known=true,training=false,truth=false,prior=6.0 resources/dbsnp_138.b37.vcf \
+#   -an QD -an HaplotypeScore -an MQRankSum -an ReadPosRankSum -an FS -an MQ \
+#   -mode SNP \
+#   -recalFile results/vcf/variant_recalibration/temp/ad.ug.vcf.snp.recal \
+#   -tranchesFile results/vcf/variant_recalibration/temp/ad.ug.vcf.snp.tranches \
+#   -rscriptFile results/vcf/variant_recalibration/temp/ad.ug.vcf.snp.plots.R
+
+# ApplyRecalibration - SNPs
+
+# java -Xmx3g -jar software/GenomeAnalysisTK.jar \
+#   -T ApplyRecalibration \
+#   -R resources/hg19.fa \
+#   -input results/vcf/variant_filtration/ad_ug_group_call_agilentV5_target_filtered.vcf \
+#   --ts_filter_level 99.0 \
+#   -tranchesFile results/vcf/variant_recalibration/temp/ad.ug.vcf.snp.tranches \
+#   -recalFile results/vcf/variant_recalibration/temp/ad.ug.vcf.snp.recal \
+#   -mode SNP \
+#   -o results/vcf/variant_recal/snp/ad.ug.vcf.recal.snp.vcf 
+
+
+ # VariantRecalibrator - INDELS 
+
+# java -Xmx4g -jar software/GenomeAnalysisTK.jar \
+#   -T VariantRecalibrator \
+#   -R resources/hg19.fa \
+#   -input results/vcf/variant_recal/snp/ad.ug.vcf.recal.snp.vcf  \
+#   -resource:mills,known=false,training=true,truth=true,prior=15.0 resources/Mills_and_1000G_gold_standard.indels.hg19.sites.vcf \
+#   -an QD -an MQRankSum -an ReadPosRankSum -an FS -an MQ \
+#   -mode  INDEL \
+#   -recalFile results/vcf/variant_recal/temp/ad.ug.vcf.snp.indel.recal \
+#   -tranchesFile results/vcf/variant_recal/temp/ad.ug.vcf.snp.indel.tranches \
+#   -rscriptFile results/vcf/variant_recal/temp/ad.ug.vcf.snp.indel.plots.R
+
+ # ApplyRecalibration - INDELS
+
+# java -Xmx3g -jar software/GenomeAnalysisTK.jar \
+#   -T ApplyRecalibration \
+#   -R resources/ucsc.hg19.fasta \
+#   -input results/vcf/variant_recal/snp/ad.ug.vcf.recal.snp.vcf \
+#   --ts_filter_level 99.0 \
+#   -tranchesFile results/vcf/variant_recal/temp/ad.ug.vcf.snp.indel.tranches \
+#   -recalFile results/vcf/variant_recal/temp/ad.ug.vcf.snp.indel.recal \
+#   -mode INDEL \
+#   -o results/vcf/variant_recal/snp_indel/ad.ug.vcf.snp.indel.recal.filt.vcf 
